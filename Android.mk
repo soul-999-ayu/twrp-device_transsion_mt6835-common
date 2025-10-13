@@ -6,7 +6,7 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifneq ($(filter Infinix-X678B Infinix-X6833B TECNO-LG8n TECNO-LG7n TECNO-CK7n TECNO-LH7n Infinix-X676C TECNO-KL8h,$(TARGET_DEVICE)),)
+ifneq ($(filter Infinix-X678B Infinix-X6833B TECNO-LG8n TECNO-LG7n TECNO-CK7n TECNO-LH7n Infinix-X676C KL8h,$(TARGET_DEVICE)),)
 
 include $(call all-subdir-makefiles,$(LOCAL_PATH))
 

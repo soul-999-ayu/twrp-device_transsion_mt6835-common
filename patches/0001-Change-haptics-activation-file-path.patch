@@ -24,8 +24,8 @@ index b5e5a14..c5b7dc3 100644
  
 -#define LEDS_HAPTICS_DURATION_FILE	"/sys/class/leds/vibrator/duration"
 -#define LEDS_HAPTICS_ACTIVATE_FILE	"/sys/class/leds/vibrator/activate"
-+#define LEDS_HAPTICS_DURATION_FILE	"/sys/class/leds/vibrator_single/duration"
-+#define LEDS_HAPTICS_ACTIVATE_FILE	"/sys/class/leds/vibrator_single/activate"
++#define LEDS_HAPTICS_DURATION_FILE	"/sys/class/leds/vibrator/duration"
++#define LEDS_HAPTICS_ACTIVATE_FILE	"/sys/class/leds/vibrator/activate"
  
  #ifndef SYN_REPORT
  #define SYN_REPORT          0x00

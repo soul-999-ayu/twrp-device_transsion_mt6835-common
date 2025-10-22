@@ -50,3 +50,23 @@ export LC_ALL="C"
 git clone https://android.googlesource.com/platform/external/gflags/ -b android-12.1.0_r4 external/gflags
 
 # Patches
+# We are REVERTING (removing) the haptics patch
+RET=0
+echo "Attempting to revert haptics patch..."
+
+# 1. Go into the directory
+cd bootable/recovery
+
+# 2. Revert the patch using the -R flag
+#    We capture the return code for THIS command
+git apply -R ../../device/transsion/mt6835-common/patches/0001-Change-haptics-activation-file-path.patch > /dev/null 2>&1 || RET=$?
+
+# 3. Go back to your root directory
+cd ../../
+
+# 4. Check if the REVERT was successful
+if [ $RET -ne 0 ];then
+    echo "WARNING: Patch revert failed. Maybe it was never applied in the first place?"
+else
+    echo "OK: Haptics patch reverted successfully."
+fi

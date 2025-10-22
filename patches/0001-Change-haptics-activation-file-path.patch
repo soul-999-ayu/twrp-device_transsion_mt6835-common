@@ -1,33 +1,59 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Shivelight <shivelight@tuta.io>
-Date: Wed, 13 Sep 2023 08:06:19 +0700
-Subject: [PATCH] Change haptics activation file path
+From: Ayu Kashyap <ayushkumar274549@gmail.com>
+Date: Wed, 22 Oct 2025 00:00:00 +0530
+Subject: [PATCH] Haptics: Use brightness file for kl8h
 
-Infinix or perhaps AWINIC Haptic Driver (aw862xx_haptic.ko) is using
-`/sys/class/leds/vibrator_single` instead of `/sys/class/leds/vibrator`.
+Change haptics logic to use /sys/class/leds/vibrator/brightness
+as this is the correct path for this device.
 
-This is temporary until TWRP allows custom haptics file path
-https://github.com/TeamWin/android_bootable_recovery/issues/321
-
-Change-Id: I8b06ac64a1c7f2bb79a1295c505950afbf46a3d2
+Change-Id: I8b06ac64a1c7f2bb79a1295c505950afbf46a3d3
 ---
- minuitwrp/events.cpp | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ minuitwrp/events.cpp | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
 diff --git a/minuitwrp/events.cpp b/minuitwrp/events.cpp
-index b5e5a14..c5b7dc3 100644
+index b5e5a14..0a3e8c0 100644
 --- a/minuitwrp/events.cpp
 +++ b/minuitwrp/events.cpp
-@@ -60,8 +60,8 @@ static std::atomic_int vib_on_count = 0;
- #define VIBRATOR_TIMEOUT_FILE	"/sys/class/timed_output/vibrator/enable"
+@@ -63,8 +63,8 @@ static std::atomic_int vib_on_count = 0;
+ #define VIBRATOR_TIMEOUT_FILE  "/sys/class/timed_output/vibrator/enable"
  #define VIBRATOR_TIME_MS    50
  
--#define LEDS_HAPTICS_DURATION_FILE	"/sys/class/leds/vibrator/duration"
--#define LEDS_HAPTICS_ACTIVATE_FILE	"/sys/class/leds/vibrator/activate"
-+#define LEDS_HAPTICS_DURATION_FILE	"/sys/class/leds/vibrator_single/duration"
-+#define LEDS_HAPTICS_ACTIVATE_FILE	"/sys/class/leds/vibrator_single/activate"
+-#define LEDS_HAPTICS_DURATION_FILE "/sys/class/leds/vibrator/duration"
+-#define LEDS_HAPTICS_ACTIVATE_FILE "/sys/class/leds/vibrator/activate"
++/* Use brightness file for haptics */
++#define LEDS_HAPTICS_BRIGHTNESS_FILE "/sys/class/leds/vibrator/brightness"
  
  #ifndef SYN_REPORT
  #define SYN_REPORT          0x00
+@@ -78,16 +78,32 @@ static void vibrate(int)
+             ret = 0;
+         }
+     } else {
+-        int fd = open(LEDS_HAPTICS_DURATION_FILE, O_RDWR);
++        // Use brightness file logic
++        int fd = open(LEDS_HAPTICS_BRIGHTNESS_FILE, O_RDWR);
+         if (fd >= 0) {
+-            write(fd, "50", 2);
++            write(fd, "255", 3); // Vibrate ON (full brightness)
+             close(fd);
+-            fd = open(LEDS_HAPTICS_ACTIVATE_FILE, O_RDWR);
++            
++            // Wait for the vibration duration (50ms)
++            // usleep is defined in unistd.h, which is already included
++            usleep(VIBRATOR_TIME_MS * 1000); // usleep takes microseconds
++            
++            fd = open(LEDS_HAPTICS_BRIGHTNESS_FILE, O_RDWR);
+             if (fd >= 0) {
+-                write(fd, "1", 1);
++                write(fd, "0", 1); // Vibrate OFF
+                 close(fd);
+-                ret = 0;
+             }
++            ret = 0; // Signal success
+         }
+     }
+ 
+
 -- 
 2.39.2

@@ -1,18 +1,19 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Ayu Kashyap <ayushkumar274549@gmail.com>
+From: Ayu Kashyap <you@example.com>
 Date: Wed, 22 Oct 2025 00:00:00 +0530
-Subject: [PATCH] Haptics: Use brightness file for kl8h
+Subject: [PATCH] Haptics: Use brightness file and increase duration
 
 Change haptics logic to use /sys/class/leds/vibrator/brightness
 as this is the correct path for this device.
+Increase haptics duration to 200ms as 50ms is too short.
 
 Change-Id: I8b06ac64a1c7f2bb79a1295c505950afbf46a3d3
 ---
- minuitwrp/events.cpp | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ minuitwrp/events.cpp | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
 diff --git a/minuitwrp/events.cpp b/minuitwrp/events.cpp
-index b5e5a14..0a3e8c0 100644
+index b5e5a14..050a453 100644
 --- a/minuitwrp/events.cpp
 +++ b/minuitwrp/events.cpp
 @@ -63,8 +63,8 @@ static std::atomic_int vib_on_count = 0;
@@ -26,7 +27,7 @@ index b5e5a14..0a3e8c0 100644
  
  #ifndef SYN_REPORT
  #define SYN_REPORT          0x00
-@@ -78,16 +78,32 @@ static void vibrate(int)
+@@ -78,16 +78,31 @@ static void vibrate(int)
              ret = 0;
          }
      } else {
@@ -39,9 +40,9 @@ index b5e5a14..0a3e8c0 100644
              close(fd);
 -            fd = open(LEDS_HAPTICS_ACTIVATE_FILE, O_RDWR);
 +            
-+            // Wait for the vibration duration (50ms)
-+            // usleep is defined in unistd.h, which is already included
-+            usleep(VIBRATOR_TIME_MS * 1000); // usleep takes microseconds
++            // Wait for 200ms (200 * 1000 microseconds)
++            // VIBRATOR_TIME_MS (50ms) is too short to be felt.
++            usleep(200 * 1000);
 +            
 +            fd = open(LEDS_HAPTICS_BRIGHTNESS_FILE, O_RDWR);
              if (fd >= 0) {

@@ -1,7 +1,6 @@
 import /init.tee.rc
 import /init.custom.rc
 import /init.vibrator.rc
-import /etc/init.recovery.device.rc
 
 on init
     setprop sys.usb.configfs 1

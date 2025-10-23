@@ -55,7 +55,7 @@ echo "Applying haptics brightness patch..."
 cd bootable/recovery
 
 # Apply YOUR NEW PATCH for brightness control
-git apply ../../device/transsion/mt6835-common/patches/0001-haptics-use-brightness-200ms.patch > /dev/null 2>&1 || RET=$?
+git apply ../../device/transsion/mt6835-common/patches/0001-haptics-use-brightness-200ms.patch || RET=$?
 
 cd ../../
 if [ $RET -ne 0 ];then

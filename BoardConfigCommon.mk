@@ -136,7 +136,7 @@ VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
 BOOT_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
 
 # Tools
-TW_THERMAL_SENSOR_PATH := "/sys/class/thermal/thermal_zone0/temp"
+TW_THERMAL_SENSOR_PATH := "/sys/class/thermal/thermal_zone36/temp"
 TW_INCLUDE_FB2PNG := true
 TW_INCLUDE_NTFS_3G := true
 TW_INCLUDE_REPACKTOOLS := true

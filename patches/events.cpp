@@ -185,7 +185,7 @@ int vibrate(int timeout_ms)
     if (std::ifstream("/sys/class/leds/vibrator/brightness").good()) {
 		write_to_file(LEDS_HAPTICS_DURATION_FILE, tout);
 		write_to_file("/sys/class/leds/vibrator/brightness", "255");
-		usleep(200 * 1000); // 200ms
+		usleep(50 * 1000); // 50ms
 		write_to_file("/sys/class/leds/vibrator/brightness", "0");
 	} else if (std::ifstream(LEDS_HAPTICS_ACTIVATE_FILE).good()) {
 		write_to_file(LEDS_HAPTICS_DURATION_FILE, tout);

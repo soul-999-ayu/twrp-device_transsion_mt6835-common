@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-
+THIS_IS_A_DELIBERATE_ERROR
 COMMON_PATH := device/transsion/mt6835-common
 
 TARGET_RECOVERY_DEVICE_DIRS := \

@@ -169,3 +169,8 @@ TW_CUSTOM_BATTERY_POS := "790"
 
 # Hack depends
 ALLOW_MISSING_DEPENDENCIES := true
+
+# --- SHRP Specifics ---
+SHRP_MAINTAINER := "Ayu Kashyap"
+SHRP_DEVICE_NAME := "Tecno Fusion 5G"
+SHRP_DEVICE_CODE := "KL8h"
